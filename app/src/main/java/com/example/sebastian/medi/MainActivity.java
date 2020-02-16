@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Button loginButton;
     TextView appName, emailEditText, passwordEditText;
     String url = "http://192.168.1.100:5000/api/";
+    static String JWTToken;
 
 
     @Override
@@ -56,14 +57,15 @@ public class MainActivity extends AppCompatActivity {
                 if(validateLogin(email, password)){
                     //do login
                     OkHttpClient client = new OkHttpClient();
-                    String testUrl = "https://reqres.in/api/login";
+                    String reqResUrl = "https://reqres.in/";
+                    String testUrl = "http://10.0.2.2:5001/api/Login?email=" + email + "&password=" + password;
 
                     MediaType MEDIA_TYPE = MediaType.parse("application/json");
 
                     JSONObject postdata = new JSONObject();
                     try {
-                        postdata.put("email", "eve.holt@reqres.in");
-                        postdata.put("password", "asdddsdsdsss");
+                        postdata.put("email", email);
+                        postdata.put("password", password);
                     } catch(JSONException e){
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -74,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
                     Request request = new Request.Builder()
                             .url(testUrl)
                             .post(body)
-                            .header("Accept", "application/json")
-                            .header("Content-Type", "application/json")
                             .build();
 
                     client.newCall(request).enqueue(new Callback() {
@@ -97,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
                                     public void run() {
                                         //Login Success
                                         System.out.println(myResponse);
-//                                        Intent userMenu = new Intent(MainActivity.this, UserMenuActivity.class);
-//                                        startActivity(userMenu);
+                                        Intent userMenu = new Intent(MainActivity.this, UserMenuActivity.class);
+                                        startActivity(userMenu);
                                     }
                                 });
                             }else{
