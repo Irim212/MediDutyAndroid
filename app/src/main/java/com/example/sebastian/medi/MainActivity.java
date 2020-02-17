@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.auth0.android.jwt.JWT;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,22 +54,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String email = emailEditText.getText().toString();
+                String emailReq = "eve.holt@reqres.in";
                 String password = passwordEditText.getText().toString();
+                String passwordReq = "cityslicka";
 
                 if(validateLogin(email, password)){
                     //do login
                     OkHttpClient client = new OkHttpClient();
-                    String reqResUrl = "https://reqres.in/";
+                    String reqResUrl = "https://reqres.in/api/login";
                     String testUrl = "http://10.0.2.2:5001/api/Login?email=" + email + "&password=" + password;
-                    String jwtTkn = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IlN0ZWZhbiIsImVtYWlsIjoiZG9rdG9yQG1haWwuY29tIiwicHJpbWFyeXNpZCI6IjYiLCJyb2xlIjoiRG9jdG9yIiwibmJmIjoxNTgxODc3MDY2LCJleHAiOjE1ODE4Nzc5NjYsImlhdCI6MTU4MTg3NzA2NiwiaXNzIjoic2VydmVyIiwiYXVkIjoic2VydmVyIn0.aWHYaO-ecsxIFRyzDlaGUJJbwQywXVTYRO4O5Y5Xsoc";
+                    final String jwtTkn = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IlN0ZWZhbiIsImVtYWlsIjoiZG9rdG9yQG1haWwuY29tIiwicHJpbWFyeXNpZCI6IjYiLCJyb2xlIjoiRG9jdG9yIiwibmJmIjoxNTgxODc3MDY2LCJleHAiOjE1ODE4Nzc5NjYsImlhdCI6MTU4MTg3NzA2NiwiaXNzIjoic2VydmVyIiwiYXVkIjoic2VydmVyIn0.aWHYaO-ecsxIFRyzDlaGUJJbwQywXVTYRO4O5Y5Xsoc";
 
 
                     MediaType MEDIA_TYPE = MediaType.parse("application/json");
 
                     JSONObject postdata = new JSONObject();
                     try {
-                        postdata.put("email", email);
-                        postdata.put("password", password);
+                        postdata.put("email", emailReq);
+                        postdata.put("password", passwordReq);
                     } catch(JSONException e){
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     RequestBody body = RequestBody.create(postdata.toString(), MEDIA_TYPE);
 
                     Request request = new Request.Builder()
-                            .url(testUrl)
+                            .url(reqResUrl)
                             .post(body)
                             .build();
 
@@ -100,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                         //Login Success
                                         System.out.println(myResponse);
                                         Intent userMenu = new Intent(MainActivity.this, UserMenuActivity.class);
+                                        userMenu.putExtra("jwtToken", jwtTkn); //myResponse
                                         startActivity(userMenu);
                                     }
                                 });
