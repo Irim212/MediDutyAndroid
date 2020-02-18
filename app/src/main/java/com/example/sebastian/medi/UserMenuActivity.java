@@ -11,6 +11,7 @@ import android.provider.CalendarContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,12 +48,15 @@ public class UserMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_menu);
         String date1 = "2020-02-11T04:30:00";
+        String httpScheduleResponse = "[[{\"id\":8,\"startsAt\":\"2020-02-03T00:00:00\",\"endsAt\":\"2020-02-05T00:00:00\",\"comment\":\"Stefan Golonka\",\"userId\":6},{\"id\":9,\"startsAt\":\"2020-02-07T00:00:00\",\"endsAt\":\"2020-02-08T00:00:00\",\"comment\":\"Stefan Golonka\",\"userId\":6},{\"id\":10,\"startsAt\":\"2020-02-13T00:00:00\",\"endsAt\":\"2020-02-15T00:00:00\",\"comment\":\"Stefan Golonka\",\"userId\":6},{\"id\":11,\"startsAt\":\"2020-02-26T00:00:00\",\"endsAt\":\"2020-02-28T00:00:00\",\"comment\":\"Stefan Golonka\",\"userId\":6},{\"id\":12,\"startsAt\":\"2020-02-29T00:00:00\",\"endsAt\":\"2020-03-02T00:00:00\",\"comment\":\"Stefan Golonka\",\"userId\":6},{\"id\":13,\"startsAt\":\"2020-02-17T00:00:00\",\"endsAt\":\"2020-02-18T00:00:00\",\"comment\":\"Stefan Golonka\",\"userId\":6},{\"id\":14,\"startsAt\":\"2020-02-20T00:00:00\",\"endsAt\":\"2020-02-22T00:00:00\",\"comment\":\"Stefan Golonka\",\"userId\":6}]]";
 
         helloText = (TextView) findViewById(R.id.helloTextView);
         addDataBtn = (Button) findViewById(R.id.addDataButton);
 
-        String jwtTokenEncoded = getIntent().getStringExtra("jwtToken");
-        JWT jwtTokenDecoded = new JWT(jwtTokenEncoded);
+        final String jwtTokenEncoded = getIntent().getStringExtra("jwtToken");
+        final JWT jwtTokenDecoded = new JWT(jwtTokenEncoded);
+        final String userId = "6";
+        //System.out.println(Base64.decode(userId, Base64.DEFAULT));
 
         DateTime readedDataTime;
         readedDataTime = readDate(date1);
@@ -66,14 +70,25 @@ public class UserMenuActivity extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 String reqResUrl = "https://reqres.in/api/unknown";
-                String testUrl = "http://10.0.2.2:5001/api/";
+                String testUrlEmu = "http://10.0.2.2:5001/api/Scheduler/userId/" + userId;
+                String testUrlPho = "http://127.0.0.1:5001/api/Scheduler/userId/" + userId;
 
                 MediaType MEDIA_TYPE = MediaType.parse("application/json");
 
-                //RequestBody body = RequestBody.create(postdata.toString(), MEDIA_TYPE);
+                JSONObject postdata = new JSONObject();
+                try {
+                    postdata.put("userId", userId );
+                    //postdata.put("password", );
+                } catch(JSONException e){
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                RequestBody body = RequestBody.create(postdata.toString(), MEDIA_TYPE);
 
                 Request request = new Request.Builder()
-                        .url(reqResUrl)
+                        .url(testUrlEmu)
+                        .addHeader("authorization", "Bearer " + jwtTokenEncoded)
                         //.post(body)
                         .build();
 
