@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                                 MainActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        //Login Success
                                         System.out.println(myResponse);
                                         Intent userMenu = new Intent(MainActivity.this, UserMenuActivity.class);
                                         userMenu.putExtra("jwtToken", jwtTkn); //myResponse
