@@ -1,21 +1,26 @@
 package com.example.sebastian.medi.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Event {
 
+    @SerializedName("id")
     private int id;
-    private int userId;
-    private String title;
+    @SerializedName("startsAt")
     private String startDate;
+    @SerializedName("endsAt")
     private String endDate;
-    private boolean allDay;
+    @SerializedName("comment")
+    private String title;
+    @SerializedName("userId")
+    private int userId;
 
-    public Event(int id, int userId, String title, String startDate, String endDate, boolean allDay){
+    public Event(int id, String startDate, String endDate, String title, int userId){
         this.id = id;
-        this.userId = userId;
-        this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.allDay = allDay;
+        this.title = title;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -58,11 +63,4 @@ public class Event {
         this.endDate = endDate;
     }
 
-    public boolean isAllDay() {
-        return allDay;
-    }
-
-    public void setAllDay(boolean allDay) {
-        this.allDay = allDay;
-    }
 }
