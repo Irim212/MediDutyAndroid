@@ -150,6 +150,7 @@ public class UserMenuActivity extends AppCompatActivity {
         values.put(CalendarContract.Events.TITLE, eventDescription);
         values.put(CalendarContract.Events.DESCRIPTION, eventDescription);
         values.put(CalendarContract.Events.CALENDAR_ID, calID);
+        values.put(CalendarContract.Events.EVENT_TIMEZONE, "Poland");
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
             Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);

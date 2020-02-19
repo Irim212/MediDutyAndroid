@@ -59,14 +59,13 @@ public class MainActivity extends AppCompatActivity {
                     String reqResUrl = "https://reqres.in/api/login";
                     String testUrlEmu = "http://10.0.2.2:5001/api/Login?email=" + email + "&password=" + password;
                     String testUrlPho = "http://192.168.1.101:5001/api/Login?email=" + email + "&password=" + password;
-                    final String jwtTkn = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IlN0ZWZhbiIsImVtYWlsIjoiZG9rdG9yQG1haWwuY29tIiwicHJpbWFyeXNpZCI6IjYiLCJyb2xlIjoiRG9jdG9yIiwibmJmIjoxNTgxODc3MDY2LCJleHAiOjE1ODE4Nzc5NjYsImlhdCI6MTU4MTg3NzA2NiwiaXNzIjoic2VydmVyIiwiYXVkIjoic2VydmVyIn0.aWHYaO-ecsxIFRyzDlaGUJJbwQywXVTYRO4O5Y5Xsoc";
 
                     MediaType MEDIA_TYPE = MediaType.parse("application/json");
 
                     JSONObject postdata = new JSONObject();
                     try {
-                        postdata.put("email", emailReq);
-                        postdata.put("password", passwordReq);
+                        postdata.put("email", email);
+                        postdata.put("password", password);
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
